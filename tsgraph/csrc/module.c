@@ -1,11 +1,15 @@
 #include <Python.h>
-#include <stdio.h>
+
+static PyObject *makeTensorFromList(PyObject *self, PyObject *args) {
+	return PyLong_FromLong(10);
+}
 
 static PyMethodDef functions[] = {
+    {"test", makeTensorFromList, METH_VARARGS, ""},
     {NULL, NULL, 0, NULL}
 };
 
-static struct PyModuleDef mod_tsgraph = {
+static struct PyModuleDef tsgraph = {
     PyModuleDef_HEAD_INIT,
     "tsgraph",
     "Event-driven computation graph for time series analysis and model optimization.",
@@ -13,8 +17,11 @@ static struct PyModuleDef mod_tsgraph = {
     functions
 };
 
-PyMODINIT_FUNC PyInit_minitorch_functions() {
-	PyObject *module = PyModule_Create(&functions);
+PyMODINIT_FUNC PyInit_backend() {
+	PyObject *module = PyModule_Create(&tsgraph);
+    import_array();
+
+    PyModule_AddIntConstant(module, "TEST", 64);
 
 	return module;
 };
