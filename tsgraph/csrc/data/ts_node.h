@@ -2,10 +2,14 @@
 #define TSGRAPH__CSRC_TS_NODE_H_
 
 #include <Python.h>
+#include <numpy/arrayobject.h>
+
+extern PyTypeObject TSVarType;
 
 typedef struct {
     PyObject_HEAD
 
-} TimeSeriesImpl;
+    PyArrayObject *data;
+} PyTSVarObject;
 
-#endif  // TSGRAPH__CSRC_TS_NODE_H_
+#endif // TSGRAPH__CSRC_TS_NODE_H_

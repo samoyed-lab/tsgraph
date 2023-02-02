@@ -19,7 +19,6 @@ static struct PyModuleDef tsgraph = {
 
 PyMODINIT_FUNC PyInit_backend() {
 	PyObject *module = PyModule_Create(&tsgraph);
-    import_array();
 
     PyModule_AddIntConstant(module, "TEST", 64);
 
