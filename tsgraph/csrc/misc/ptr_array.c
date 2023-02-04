@@ -4,7 +4,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define PTR_ARRAY_INIT_SIZE 10
+#define PTR_ARRAY_INIT_SIZE 64
+#define PTR_ARRAY_EXPAND_SIZE 64
 
 static void ptr_array_maybe_expand(PtrArray *array, tsuint_t len) {
     tsuint_t max_len = TSUINT_MAX / sizeof(void *);
@@ -75,4 +76,33 @@ void *ptr_array_remove_index(PtrArray *array, tsuint_t idx) {
 
 void *ptr_array_steal_index(PtrArray *array, tsuint_t idx) {
     return ptr_array_remove_maybe_free(array, idx, false);
+}
+
+void ptr_array_add(PtrArray *array, void *ptr) {
+    if (array->len >= array->alloc) {
+        ptr_array_maybe_expand(array, PTR_ARRAY_EXPAND_SIZE);
+    }
+
+    ptr_array_index(array, array->len++) = ptr;
+}
+
+void ptr_array_insert(PtrArray *array, tsuint_t idx, void *ptr) {
+    if (idx < -1 || idx > array->len) return;
+
+    if (idx == -1) idx = array->len;
+
+    if (array->len >= array->alloc) {
+        ptr_array_maybe_expand(array, PTR_ARRAY_EXPAND_SIZE);
+    }
+
+    if (idx < array->len) {
+        memmove(
+            &(array->pdata[idx + 1]),
+            &(array->pdata[idx]),
+            (array->len - idx) * sizeof (void *)
+        );
+    }
+
+    array->len++;
+    ptr_array_index(array, idx) = ptr;
 }

@@ -30,7 +30,7 @@ typedef struct {
     PtrDestructor element_free_func;
 } PtrArray;
 
-#define ptr_array_index(array, idx) ((array)->pdata)[idx];
+#define ptr_array_index(array, idx) ((array)->pdata)[idx]
 
 PtrArray *ptr_array_new();
 PtrArray *ptr_array_new_with_free_func(PtrDestructor element_free_func);
