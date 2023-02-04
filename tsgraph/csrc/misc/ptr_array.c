@@ -1,7 +1,10 @@
 #include "ptr_array.h"
 
+#include <Python.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "misc/macros.h"
 
 #define PTR_ARRAY_INIT_SIZE 64
 #define PTR_ARRAY_EXPAND_SIZE 64
@@ -11,7 +14,12 @@ static void ptr_array_maybe_expand(PtrArray *array, tsuint_t len) {
 
     // Overflows due to requesting more space than max_len.
     if (max_len - array->len <= len) {
-        // TODO: overflow
+        PyErr_Format(
+            PyExc_MemoryError,
+            "Extending PtrArray over its maximum length of %d.",
+            max_len
+        );
+        return;
     }
 
     // Expand if requesting more length that current.
@@ -28,7 +36,10 @@ PtrArray *ptr_array_new(PtrDestructor element_free_func) {
 
 PtrArray *ptr_array_new_with_free_func(PtrDestructor element_free_func) {
     PtrArray *array = malloc(sizeof(PtrArray));
-    if (array == NULL) return NULL;
+    if (array == NULL) {
+        SetErr_NoMem;
+        return NULL;
+    }
 
     array->pdata = NULL;
     array->len = 0;
@@ -38,6 +49,7 @@ PtrArray *ptr_array_new_with_free_func(PtrDestructor element_free_func) {
     ptr_array_maybe_expand(array, PTR_ARRAY_INIT_SIZE);
     if (array->pdata == NULL) {
         free(array);
+        SetErr_NoMem;
         return NULL;
     }
 
@@ -48,6 +60,11 @@ static void *ptr_array_remove_maybe_free(
     PtrArray *array, tsuint_t idx, bool free_element
 ) {
     if (array->len == 0 || array->len <= idx) {
+        PyErr_SetFormat(
+            PyExc_IndexError,
+            "Accesing index %d of PtrArray of length %d",
+            idx, array->len
+        );
         return NULL;
     }
 
@@ -86,7 +103,14 @@ void ptr_array_add(PtrArray *array, void *ptr) {
 }
 
 void ptr_array_insert(PtrArray *array, tsuint_t idx, void *ptr) {
-    if (idx > array->len) return;
+    if (idx > array->len) {
+        PyErr_SetFormat(
+            PyExc_IndexError,
+            "Inserting at index %d of PtrArray of length %d",
+            idx, array->len
+        );
+        return;
+    }
 
     if (array->len >= array->alloc) {
         ptr_array_maybe_expand(array, PTR_ARRAY_EXPAND_SIZE);
