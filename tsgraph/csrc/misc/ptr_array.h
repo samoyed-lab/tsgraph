@@ -1,6 +1,8 @@
 #ifndef TSGRAPH__CSRC_PTR_ARRAY_H_
 #define TSGRAPH__CSRC_PTR_ARRAY_H_
 
+#include <stdbool.h>
+
 #include "types.h"
 
 /*
@@ -40,5 +42,7 @@ void *ptr_array_steal_index(PtrArray *array, tsuint_t idx);
 
 void ptr_array_add(PtrArray *array, void *ptr);
 void ptr_array_insert(PtrArray *array, tsuint_t idx, void *ptr);
+
+void ptr_array_free(PtrArray *array, bool free_elements);
 
 #endif // TSGRAPH__CSRC_PTR_ARRAY_H_

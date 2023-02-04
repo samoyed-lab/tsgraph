@@ -1,6 +1,5 @@
-#include <ptr_array.h>
+#include "ptr_array.h"
 
-#include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -87,9 +86,7 @@ void ptr_array_add(PtrArray *array, void *ptr) {
 }
 
 void ptr_array_insert(PtrArray *array, tsuint_t idx, void *ptr) {
-    if (idx < -1 || idx > array->len) return;
-
-    if (idx == -1) idx = array->len;
+    if (idx > array->len) return;
 
     if (array->len >= array->alloc) {
         ptr_array_maybe_expand(array, PTR_ARRAY_EXPAND_SIZE);
@@ -105,4 +102,14 @@ void ptr_array_insert(PtrArray *array, tsuint_t idx, void *ptr) {
 
     array->len++;
     ptr_array_index(array, idx) = ptr;
+}
+
+void ptr_array_free(PtrArray *array, bool free_elements) {
+    if (free_elements && array->element_free_func != NULL) {
+        for (tsuint_t i = 0; i < array->len; i++) {
+            array->element_free_func(ptr_array_index(array, i));
+        }
+    }
+
+    free(array);
 }

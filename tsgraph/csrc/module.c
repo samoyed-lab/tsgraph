@@ -1,11 +1,15 @@
 #include <Python.h>
+#include <stdio.h>
 
-static PyObject *makeTensorFromList(PyObject *self, PyObject *args) {
+static PyObject *test(PyObject *self, PyObject *args) {
+    
+    
+
 	return PyLong_FromLong(10);
 }
 
 static PyMethodDef functions[] = {
-    {"test", makeTensorFromList, METH_VARARGS, ""},
+    {"test", test, METH_NOARGS, ""},
     {NULL, NULL, 0, NULL}
 };
 
@@ -19,8 +23,6 @@ static struct PyModuleDef tsgraph = {
 
 PyMODINIT_FUNC PyInit_backend() {
 	PyObject *module = PyModule_Create(&tsgraph);
-
-    PyModule_AddIntConstant(module, "TEST", 64);
 
 	return module;
 };
