@@ -14,8 +14,7 @@ setup(
     	Extension(
             'tsgraph.backend',
             sources=[
-                'tsgraph/csrc/module.c',
-                'tsgraph/csrc/data/ts_node.c'
+                'tsgraph/csrc/module.c'
             ],
             include_dirs=[np.get_include()]
         )

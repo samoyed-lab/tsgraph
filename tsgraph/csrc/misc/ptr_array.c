@@ -1,6 +1,8 @@
 #include <ptr_array.h>
 
+#include <stdbool.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define PTR_ARRAY_INIT_SIZE 10
 
@@ -40,4 +42,37 @@ PtrArray *ptr_array_new_with_free_func(PtrDestructor element_free_func) {
     }
 
     return array;
+}
+
+static void *ptr_array_remove_maybe_free(
+    PtrArray *array, tsuint_t idx, bool free_element
+) {
+    if (array->len == 0 || array->len <= idx) {
+        return NULL;
+    }
+
+    void *result = ptr_array_index(array, idx);
+    if (free_element && array->element_free_func != NULL) {
+        array->element_free_func(result);
+    }
+
+    // Shift all elements to the left.
+    if (idx != array->len - 1) {
+        memmove(
+            array->pdata + idx,
+            array->pdata + idx + 1,
+            sizeof(void *) * (array->len - idx - 1)
+        );
+    }
+
+    array->len--;
+    return result;
+}
+
+void *ptr_array_remove_index(PtrArray *array, tsuint_t idx) {
+    return ptr_array_remove_maybe_free(array, idx, true);
+}
+
+void *ptr_array_steal_index(PtrArray *array, tsuint_t idx) {
+    return ptr_array_remove_maybe_free(array, idx, false);
 }

@@ -24,7 +24,7 @@ typedef void (*PtrDestructor)(void *);
     for recognizability.
 */
 typedef struct {
-    void *pdata;
+    void **pdata;
     tsuint_t len;
     tsuint_t alloc;
     PtrDestructor element_free_func;
