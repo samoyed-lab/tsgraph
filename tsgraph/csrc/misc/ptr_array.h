@@ -1,7 +1,7 @@
 #ifndef TSGRAPH__CSRC_PTR_ARRAY_H_
 #define TSGRAPH__CSRC_PTR_ARRAY_H_
 
-#include <stdint.h>
+#include "types.h"
 
 /*
     A consumer that is either called on an element during its
@@ -25,19 +25,20 @@ typedef void (*PtrDestructor)(void *);
 */
 typedef struct {
     void *pdata;
-    uint32_t len;
-    uint32_t alloc;
+    tsuint_t len;
+    tsuint_t alloc;
     PtrDestructor element_free_func;
 } PtrArray;
 
 #define ptr_array_index(array, idx) ((array)->pdata)[idx];
 
-PtrArray *ptr_array_new(PtrDestructor element_free_func);
+PtrArray *ptr_array_new();
+PtrArray *ptr_array_new_with_free_func(PtrDestructor element_free_func);
 
-void *ptr_array_remove_index(PtrArray *array, uint32_t idx);
-void *ptr_array_steal_index(PtrArray *array, uint32_t idx);
+void *ptr_array_remove_index(PtrArray *array, tsuint_t idx);
+void *ptr_array_steal_index(PtrArray *array, tsuint_t idx);
 
 void ptr_array_add(PtrArray *array, void *ptr);
-void ptr_array_insert(PtrArray *array, uint32_t idx, void *ptr);
+void ptr_array_insert(PtrArray *array, tsuint_t idx, void *ptr);
 
 #endif // TSGRAPH__CSRC_PTR_ARRAY_H_
