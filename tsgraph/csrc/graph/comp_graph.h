@@ -3,6 +3,23 @@
 
 #include "../misc/ptr_array.h"
 
+enum NodeOp {
+    // Input (leaf node).
+    OP_INP,
+
+    // Constant.
+    OP_CON,
+
+    // Arithmetics.
+    OP_ADD, OP_SUB, OP_MUL, OP_DIV, OP_MOD,
+
+    // Logic.
+    OP_AND, OP_OR, OP_XOR,
+
+    // Equality.
+    OP_EQU, OP_NEQ, OP_LEQ, OP_GEQ, OP_LE, OP_GE
+};
+
 typedef struct {
     /*
         All nodes whose value depend on this node, i.e. ones that
@@ -15,6 +32,7 @@ typedef struct {
         dependency triggers an update on this node.
     */
     TSNode *dependencies;
+    enum NodeOp type;
 
     /*
         Denotes how high up in the computation tree this node is.
