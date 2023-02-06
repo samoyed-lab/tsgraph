@@ -4,12 +4,20 @@
 #include <Python.h>
 #include <numpy/arrayobject.h>
 
+#include "../misc/types.h"
+#include "../graph/comp_graph.h"
+
+typedef tsuint_t node_ref_t;
+
 extern PyTypeObject TSVarType;
 
 typedef struct {
     PyObject_HEAD
+    
+    PyObject *graph_obj;
+    node_ref_t ref_id;
+} PyNodeRefObject;
 
-    PyArrayObject *data;
-} PyTSVarObject;
+PyNodeRefObject *node_ref_new(PyObject *graph_obj, node_ref_t ref_id);
 
 #endif // TSGRAPH__CSRC_TS_NODE_H_
