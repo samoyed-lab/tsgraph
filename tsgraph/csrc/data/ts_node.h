@@ -18,6 +18,4 @@ typedef struct {
     node_ref_t ref_id;
 } PyNodeRefObject;
 
-PyNodeRefObject *node_ref_new(PyObject *graph_obj, node_ref_t ref_id);
-
 #endif // TSGRAPH__CSRC_TS_NODE_H_
