@@ -21,6 +21,16 @@ enum NodeOp {
 };
 
 typedef struct {
+
+    /*
+        An extra field indicating the index of this node in its parent's
+        node array. Currently unused, but added as a precaution in case
+        a node ptr to index mapping is needed (due to how nodes directly
+        access their dependents/dependencies through pointers instead of
+        indexing via parent graph).
+    */
+    tsuint_t id;
+
     /*
         All nodes whose value depend on this node, i.e. ones that
         should be updated on update of this node.
