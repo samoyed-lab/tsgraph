@@ -1,7 +1,7 @@
 #ifndef TSGRAPH__CSRC_COMP_GRAPH_H_
 #define TSGRAPH__CSRC_COMP_GRAPH_H_
 
-#include "../misc/ptr_array.h"
+#include "misc/ptr_array.h"
 
 enum NodeOp {
     // Input (leaf node).
