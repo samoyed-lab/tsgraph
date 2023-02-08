@@ -17,7 +17,10 @@ setup(
                 'tsgraph/csrc/module.c',
                 'tsgraph/csrc/misc/ptr_array.c'
             ],
-            include_dirs=[np.get_include()]
+            include_dirs=[
+                np.get_include(),
+                'tsgraph/csrc'
+            ]
         )
     ]
 )

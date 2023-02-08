@@ -20,7 +20,7 @@ enum NodeOp {
     OP_EQU, OP_NEQ, OP_LEQ, OP_GEQ, OP_LE, OP_GE
 };
 
-typedef struct {
+typedef struct TSNode {
 
     /*
         An extra field indicating the index of this node in its parent's
@@ -41,7 +41,7 @@ typedef struct {
         An array of dependencies for this node. Any update in a
         dependency triggers an update on this node.
     */
-    TSNode *dependencies;
+    struct TSNode *dependencies;
     enum NodeOp type;
 
     /*

@@ -1,6 +1,8 @@
 #include <Python.h>
 #include <stdio.h>
 
+#include "api/py_graph_impl.h"
+
 static PyObject *test(PyObject *self, PyObject *args) {
     
     

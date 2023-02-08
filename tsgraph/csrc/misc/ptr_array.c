@@ -60,7 +60,7 @@ static void *ptr_array_remove_maybe_free(
     PtrArray *array, tsuint_t idx, bool free_element
 ) {
     if (array->len == 0 || array->len <= idx) {
-        PyErr_SetFormat(
+        PyErr_Format(
             PyExc_IndexError,
             "Accesing index %d of PtrArray of length %d",
             idx, array->len
@@ -104,7 +104,7 @@ void ptr_array_add(PtrArray *array, void *ptr) {
 
 void ptr_array_insert(PtrArray *array, tsuint_t idx, void *ptr) {
     if (idx > array->len) {
-        PyErr_SetFormat(
+        PyErr_Format(
             PyExc_IndexError,
             "Inserting at index %d of PtrArray of length %d",
             idx, array->len
