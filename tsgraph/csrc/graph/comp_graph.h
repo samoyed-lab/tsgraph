@@ -32,6 +32,28 @@ typedef struct TSNode {
     tsuint_t id;
 
     /*
+        The current length of the sequence. 0 if this node is unpopulated.
+    */
+    tsuint_t curr_len;
+
+    /*
+        If this node represents a scalar instead of a time-series.
+    */
+    bool is_scalar;
+
+    /*
+        If this node should only keep track of `max_window_len` most recent
+        elements in memory. Defaults to false.
+    */
+    bool use_sliding_window;
+
+    /*
+        The amount of elements to keep in memory if `use_sliding_window` is
+        true.
+    */
+    tsuint_t max_window_len;
+
+    /*
         All nodes whose value depend on this node, i.e. ones that
         should be updated on update of this node.
     */
