@@ -16,7 +16,7 @@ jobs:
           pip install mypy
       - name: Build Package
         run: |
-          pip install requirements.txt
+          pip install -r requirements.txt
           pip install .
       - name: Run Checks
         run: |
