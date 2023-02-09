@@ -1,4 +1,4 @@
-name: "Static Type Check"
+name: "Type Check"
 
 on: [push]
 
