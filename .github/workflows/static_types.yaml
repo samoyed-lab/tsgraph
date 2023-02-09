@@ -1,5 +1,4 @@
 name: "Static Type Check"
-description: "Runs 'mypy' checks on all module files."
 
 on: [push]
 
