@@ -1,4 +1,4 @@
-from setuptools import setup, Extension
+from setuptools import setup, Extension, find_packages
 
 import numpy as np
 
@@ -8,7 +8,10 @@ setup(
     version="0.1.0",
     description="Event-driven computation graph for time series analysis and model optimization.",
     author="Samoyed Lab",
-    packages=["tsgraph"],
+    packages=find_packages(),
+    package_data = {
+        'tsgraph.backend': ['tsgraph/csrc/py.typed']
+    },
 
     ext_modules=[
     	Extension(
