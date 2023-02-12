@@ -43,12 +43,17 @@ static struct PyModuleDef tsgraph = {
 };
 
 PyMODINIT_FUNC PyInit_backend() {
-    if (PyType_Ready(&GraphImplType) < 0)return NULL;
-
 	PyObject *module = PyModule_Create(&tsgraph);
     if (module == NULL) return NULL;
 
+    if (PyType_Ready(&GraphImplType) < 0) return NULL;
     Py_INCREF(&GraphImplType);
+
+    if (PyModule_AddObject(module, "GraphImpl", (PyObject *) &GraphImplType) < 0) {
+        Py_DECREF(&GraphImplType);
+        Py_DECREF(module);
+        return NULL;
+    }
 
 	return module;
 };

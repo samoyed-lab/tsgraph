@@ -135,5 +135,6 @@ void ptr_array_free(PtrArray *array, bool free_elements) {
         }
     }
 
+    free(array->pdata);
     free(array);
 }

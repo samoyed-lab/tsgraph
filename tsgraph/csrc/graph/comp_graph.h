@@ -104,7 +104,7 @@ typedef struct {
 } TSGraph;
 
 void graph_init(TSGraph *graph);
-void graph_clear(TSGraph *graph);
+void graph_clear(TSGraph *graph); // DOES NOT FREE THE GRAPH POINTER!!!
 
 tsuint_t graph_compound_node(TSGraph *graph, tsuint_t a, tsuint_t b, enum NodeOp type);
 
