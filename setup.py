@@ -17,8 +17,13 @@ setup(
     	Extension(
             'tsgraph.backend',
             sources=[
-                'tsgraph/csrc/module.c',
-                'tsgraph/csrc/misc/ptr_array.c'
+                'tsgraph/csrc/misc/ptr_array.c',
+
+                'tsgraph/csrc/graph/comp_graph.c',
+                'tsgraph/csrc/api/py_graph_impl.c',
+                'tsgraph/csrc/api/pyobj_operators.c',
+
+                'tsgraph/csrc/module.c'
             ],
             include_dirs=[
                 np.get_include(),

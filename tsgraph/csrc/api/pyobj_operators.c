@@ -3,23 +3,24 @@
 #include "api/py_graph_impl.h"
 #include "graph/comp_graph.h"
 #include "misc/types.h"
-
+#include <stdio.h>
 static PyObject *make_compound_node(PyObject *args, enum NodeOp op) {
     PyObject *graph;
     tsuint_t a, b;
-    if (!PyArg_ParseTuple(args, "OII", *graph, &a, &b)) return NULL;
-
+    if (!PyArg_ParseTuple(args, "OII", &graph, &a, &b)) return NULL;
+    
     if (!PyObject_IsInstance(graph, (PyObject *) &GraphImplType)) {
         PyErr_SetString(
             PyExc_TypeError,
-            "Expecting argument 1 of type GraphImpl."
+            "Expecting argument 1 to be of type GraphImpl"
         );
+        return NULL;
     }
-
+    /*
     PyGraphImplObject *graph_impl = (PyGraphImplObject *) graph;
-    tsuint_t new_node = graph_compound_node(graph_impl, a, b, op);
+    tsuint_t new_node = graph_compound_node(&(graph_impl->graph), a, b, op);*/
 
-    return PyLong_FromUnsignedLong(new_node);
+    return PyLong_FromUnsignedLong(1);//new_node);
 }
 
 #define NODE_OPERATOR_DEF(op) \

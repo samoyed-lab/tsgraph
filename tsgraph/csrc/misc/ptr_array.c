@@ -16,7 +16,7 @@ static void ptr_array_maybe_expand(PtrArray *array, tsuint_t len) {
     if (max_len - array->len <= len) {
         PyErr_Format(
             PyExc_MemoryError,
-            "Extending PtrArray over its maximum length of %d.",
+            "Extending PtrArray over its maximum length of %d",
             max_len
         );
         return;

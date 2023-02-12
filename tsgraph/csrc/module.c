@@ -2,16 +2,35 @@
 #include <stdio.h>
 
 #include "api/py_graph_impl.h"
+#include "api/pyobj_operators.h"
+
+#define NODE_OP_PROP(op) \
+{"_node_ref_"#op, node_ref_##op, METH_VARARGS, "The "#op" operator for variables."}
 
 static PyObject *test(PyObject *self, PyObject *args) {
-    
-    
-
 	return PyLong_FromLong(10);
 }
 
 static PyMethodDef functions[] = {
     {"test", test, METH_NOARGS, ""},
+
+    NODE_OP_PROP(ADD),
+    NODE_OP_PROP(SUB),
+    NODE_OP_PROP(MUL),
+    NODE_OP_PROP(DIV),
+    NODE_OP_PROP(MOD),
+
+    NODE_OP_PROP(AND),
+    NODE_OP_PROP(OR),
+    NODE_OP_PROP(XOR),
+
+    NODE_OP_PROP(EQU),
+    NODE_OP_PROP(NEQ),
+    NODE_OP_PROP(LEQ),
+    NODE_OP_PROP(GEQ),
+    NODE_OP_PROP(LE),
+    NODE_OP_PROP(GE),
+
     {NULL, NULL, 0, NULL}
 };
 
@@ -24,7 +43,12 @@ static struct PyModuleDef tsgraph = {
 };
 
 PyMODINIT_FUNC PyInit_backend() {
+    if (PyType_Ready(&GraphImplType) < 0)return NULL;
+
 	PyObject *module = PyModule_Create(&tsgraph);
+    if (module == NULL) return NULL;
+
+    Py_INCREF(&GraphImplType);
 
 	return module;
 };
