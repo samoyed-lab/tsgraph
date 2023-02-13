@@ -1,2 +1,2 @@
-numpy==1.24.1
+pkgconfig==1.5.5
 setuptools==62.6.0
