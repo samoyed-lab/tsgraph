@@ -1,5 +1,7 @@
 #include "comp_graph.h"
 
+#include <glib.h>
+
 #include "misc/ptr_array.h"
 
 void graph_init(TSGraph *graph) {

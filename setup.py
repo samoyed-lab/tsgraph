@@ -1,14 +1,13 @@
-from setuptools import setup, Extension, find_packages
-
-import numpy as np
+from setuptools import setup, find_packages
+from setuptools.extension import Extension
 
 
 setup(
-    name="tsgraph",
-    version="0.1.0",
-    description="Event-driven computation graph for time series analysis and model optimization.",
-    author="Samoyed Lab",
-    packages=find_packages(),
+    name = "tsgraph",
+    version = "0.1.0",
+    description = "Event-driven computation graph for time series analysis and model optimization.",
+    author = "Samoyed Lab",
+    packages = find_packages(),
     package_data = {
         'tsgraph.backend': ['tsgraph/csrc/py.typed']
     },
@@ -16,7 +15,8 @@ setup(
     ext_modules=[
     	Extension(
             'tsgraph.backend',
-            sources=[
+            libraries = ['glib-2.0'],
+            sources = [
                 'tsgraph/csrc/misc/ptr_array.c',
 
                 'tsgraph/csrc/graph/comp_graph.c',
@@ -25,9 +25,11 @@ setup(
 
                 'tsgraph/csrc/module.c'
             ],
-            include_dirs=[
-                np.get_include(),
-                'tsgraph/csrc'
+            include_dirs = [
+                'tsgraph/csrc',
+                # TODO: automatic this library searching thing...
+                '/usr/local/Cellar/glib/2.74.5/include/glib-2.0',
+                '/usr/local/lib/glib-2.0/include'
             ]
         )
     ]

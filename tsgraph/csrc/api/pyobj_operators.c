@@ -3,7 +3,7 @@
 #include "api/py_graph_impl.h"
 #include "graph/comp_graph.h"
 #include "misc/types.h"
-#include <stdio.h>
+
 static PyObject *make_compound_node(PyObject *args, enum NodeOp op) {
     PyObject *graph;
     tsuint_t a, b;
