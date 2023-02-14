@@ -1,7 +1,10 @@
 #ifndef TSGRAPH__CSRC_COMP_GRAPH_H_
 #define TSGRAPH__CSRC_COMP_GRAPH_H_
 
-#include "misc/ptr_array.h"
+#include <glib.h>
+#include <stdbool.h>
+
+#include "misc/types.h"
 
 enum NodeOp {
     // Input (leaf node).
@@ -57,7 +60,7 @@ typedef struct TSNode {
         All nodes whose value depend on this node, i.e. ones that
         should be updated on update of this node.
     */
-    PtrArray *dependents;
+    GPtrArray *dependents;
 
     /*
         An array of dependencies for this node. Any update in a
@@ -88,19 +91,19 @@ typedef struct {
     /*
         All nodes in this calculation graph, referenced by their index.
     */
-    PtrArray *nodes;
+    GPtrArray *nodes;
 
     /*
         All variables whose value is populated by user inputs during
         graph evaluation.
     */
-    PtrArray *input_nodes;
+    GPtrArray *input_nodes;
 
     /*
         All (input) nodes whose value has been changed since the last
         graph evaluation. Used for partial graph updates.
     */
-    PtrArray *dirty_nodes;
+    GPtrArray *dirty_nodes;
 } TSGraph;
 
 void graph_init(TSGraph *graph);

@@ -7,8 +7,6 @@ from setuptools.extension import Extension
 backend = Extension(
     'tsgraph.backend',
     sources = [
-        'tsgraph/csrc/misc/ptr_array.c',
-
         'tsgraph/csrc/graph/comp_graph.c',
         'tsgraph/csrc/api/py_graph_impl.c',
         'tsgraph/csrc/api/pyobj_operators.c',
