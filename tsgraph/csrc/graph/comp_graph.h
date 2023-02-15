@@ -87,7 +87,14 @@ typedef struct TSNode {
     bool dirty;
 } TSNode;
 
+void node_free(TSNode *node);
+
 typedef struct {
+    /*
+        Whether event-handler callbacks are enabled.
+    */
+   bool trigger_handler;
+
     /*
         All nodes in this calculation graph, referenced by their index.
     */
