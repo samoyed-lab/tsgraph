@@ -5,22 +5,30 @@
 #include "misc/types.h"
 
 static PyObject *make_compound_node(PyObject *args, enum NodeOp op) {
-    PyObject *graph;
+    PyObject *graph = NULL;
     tsuint_t a, b;
-    if (!PyArg_ParseTuple(args, "OII", &graph, &a, &b)) return NULL;
-    
-    if (!PyObject_IsInstance(graph, (PyObject *) &GraphImplType)) {
-        PyErr_SetString(
-            PyExc_TypeError,
-            "Expecting argument 1 to be of type GraphImpl"
-        );
-        return NULL;
-    }
-    /*
-    PyGraphImplObject *graph_impl = (PyGraphImplObject *) graph;
-    tsuint_t new_node = graph_compound_node(&(graph_impl->graph), a, b, op);*/
+    PyObject *ret = NULL;
 
-    return PyLong_FromUnsignedLong(1);//new_node);
+    do {
+        if (!PyArg_ParseTuple(args, "OII", &graph, &a, &b)) break;
+        Py_INCREF(graph);
+
+        if (!PyObject_IsInstance(graph, (PyObject *) &GraphImplType)) {
+            PyErr_SetString(
+                PyExc_TypeError,
+                "Expecting argument 1 to be of type GraphImpl"
+            );
+            break;
+        }
+
+        PyGraphImplObject *graph_impl = (PyGraphImplObject *) graph;
+        tsuint_t new_node = graph_compound_node(&(graph_impl->graph), a, b, op);
+
+        ret = PyLong_FromUnsignedLong(1);
+    } while (false);
+
+    Py_XDECREF(graph);
+    return ret;
 }
 
 #define NODE_OPERATOR_DEF(op) \
