@@ -118,7 +118,7 @@ typedef struct {
 
 void graph_init(TSGraph *graph);
 void graph_clear(TSGraph *graph); // DOES NOT FREE THE GRAPH POINTER!!!
-void graph_is_valid_node(TSGraph *graph, tsuint_t id);
+bool graph_is_valid_node(TSGraph *graph, tsuint_t id);
 
 
 /*

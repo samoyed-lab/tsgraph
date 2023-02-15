@@ -25,7 +25,7 @@ static PyObject *make_compound_node(PyObject *args, enum NodeOp op) {
         tsuint_t new_node = graph_binary_node(&(graph_impl->graph), a, b, op);
         if (PyErr_Occurred()) break;
 
-        ret = PyLong_FromUnsignedLong(1);
+        ret = PyLong_FromUnsignedLong(new_node);
     } while (false);
 
     Py_XDECREF(graph);
