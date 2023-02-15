@@ -22,7 +22,8 @@ static PyObject *make_compound_node(PyObject *args, enum NodeOp op) {
         }
 
         PyGraphImplObject *graph_impl = (PyGraphImplObject *) graph;
-        tsuint_t new_node = graph_compound_node(&(graph_impl->graph), a, b, op);
+        tsuint_t new_node = graph_binary_node(&(graph_impl->graph), a, b, op);
+        if (PyErr_Occurred()) break;
 
         ret = PyLong_FromUnsignedLong(1);
     } while (false);

@@ -65,6 +65,9 @@ typedef struct TSNode {
     /*
         An array of dependencies for this node. Any update in a
         dependency triggers an update on this node.
+
+        Note that this has a fixed length, as the type of the operator
+        dictates how many dependents it have.
     */
     struct TSNode *dependencies;
     enum NodeOp type;
@@ -115,7 +118,14 @@ typedef struct {
 
 void graph_init(TSGraph *graph);
 void graph_clear(TSGraph *graph); // DOES NOT FREE THE GRAPH POINTER!!!
+void graph_is_valid_node(TSGraph *graph, tsuint_t id);
 
-tsuint_t graph_compound_node(TSGraph *graph, tsuint_t a, tsuint_t b, enum NodeOp type);
+
+/*
+    Creates a new node resembling a binary operator.
+
+    May set a Python error string. Check with `PyErr_Occurred()`;
+*/
+tsuint_t graph_binary_node(TSGraph *graph, tsuint_t a, tsuint_t b, enum NodeOp type);
 
 #endif // TSGRAPH__CSRC_COMP_GRAPH_H_
