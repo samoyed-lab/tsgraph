@@ -7,6 +7,7 @@
 #include "graph/comp_graph.h"
 
 extern PyTypeObject GraphImplType;
+extern PyMethodDef py_graph_methods[];
 
 typedef struct {
     PyObject_HEAD
@@ -14,8 +15,10 @@ typedef struct {
     TSGraph graph;
 } PyGraphImplObject;
 
-static PyObject *py_graph_new(PyTypeObject *type, PyObject *args, PyObject *kwargs);
-static int py_graph_init(PyTypeObject *type, PyObject *args, PyObject *kwargs);
-static void py_graph_dealloc(PyGraphImplObject *obj);
+PyObject *py_graph_new(PyTypeObject *type, PyObject *args, PyObject *kwargs);
+int py_graph_init(PyTypeObject *type, PyObject *args, PyObject *kwargs);
+void py_graph_dealloc(PyGraphImplObject *obj);
+
+PyObject *py_graph_set_trigger(PyGraphImplObject *self, PyObject *args);
 
 #endif // TSGRAPH_CSRC_PY_GRAPH_IMPL_H_

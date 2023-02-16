@@ -12,7 +12,7 @@ void node_free(TSNode *node) {
 }
 
 void graph_init(TSGraph *graph) {
-    graph->trigger_handler = true;
+    graph->handle_trigger = true;
     graph->nodes = g_ptr_array_new_with_free_func((GDestroyNotify) node_free);
     graph->dirty_nodes = g_ptr_array_new();
     graph->input_nodes = g_ptr_array_new();

@@ -96,7 +96,7 @@ typedef struct {
     /*
         Whether event-handler callbacks are enabled.
     */
-   bool trigger_handler;
+   bool handle_trigger;
 
     /*
         All nodes in this calculation graph, referenced by their index.
