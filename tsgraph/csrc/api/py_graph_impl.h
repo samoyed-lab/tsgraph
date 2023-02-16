@@ -14,4 +14,8 @@ typedef struct {
     TSGraph graph;
 } PyGraphImplObject;
 
+static PyObject *py_graph_new(PyTypeObject *type, PyObject *args, PyObject *kwargs);
+static int py_graph_init(PyTypeObject *type, PyObject *args, PyObject *kwargs);
+static void py_graph_dealloc(PyGraphImplObject *obj);
+
 #endif // TSGRAPH_CSRC_PY_GRAPH_IMPL_H_
