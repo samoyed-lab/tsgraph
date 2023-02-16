@@ -48,7 +48,7 @@ typedef struct TSNode {
         If this node should only keep track of `max_window_len` most recent
         elements in memory. Defaults to false.
     */
-    bool use_sliding_window;
+    bool is_sliding_window;
 
     /*
         The amount of elements to keep in memory if `use_sliding_window` is
@@ -69,7 +69,7 @@ typedef struct TSNode {
         Note that this has a fixed length, as the type of the operator
         dictates how many dependents it have.
     */
-    struct TSNode *dependencies;
+    struct TSNode **dependencies;
     enum NodeOp type;
 
     /*
@@ -122,10 +122,10 @@ bool graph_is_valid_node(TSGraph *graph, tsuint_t id);
 
 
 /*
-    Creates a new node resembling a binary operator.
+    Creates a new node resembling a compound operation.
 
     May set a Python error string. Check with `PyErr_Occurred()`;
 */
-tsuint_t graph_binary_node(TSGraph *graph, tsuint_t a, tsuint_t b, enum NodeOp type);
+tsuint_t graph_comp_node(TSGraph *graph, enum NodeOp type, int n_deps, tsuint_t deps[]);
 
 #endif // TSGRAPH__CSRC_COMP_GRAPH_H_

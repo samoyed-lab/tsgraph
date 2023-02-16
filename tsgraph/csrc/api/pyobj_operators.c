@@ -4,7 +4,7 @@
 #include "graph/comp_graph.h"
 #include "misc/types.h"
 
-static PyObject *make_compound_node(PyObject *args, enum NodeOp op) {
+static PyObject *make_bin_op_node(PyObject *args, enum NodeOp op) {
     PyObject *graph = NULL;
     tsuint_t a, b;
     PyObject *ret = NULL;
@@ -22,7 +22,12 @@ static PyObject *make_compound_node(PyObject *args, enum NodeOp op) {
         }
 
         PyGraphImplObject *graph_impl = (PyGraphImplObject *) graph;
-        tsuint_t new_node = graph_binary_node(&(graph_impl->graph), a, b, op);
+        tsuint_t new_node = graph_comp_node(
+            &(graph_impl->graph),
+            op,
+            2,
+            (tsuint_t[]) {a, b}
+        );
         if (PyErr_Occurred()) break;
 
         ret = PyLong_FromUnsignedLong(new_node);
@@ -32,24 +37,24 @@ static PyObject *make_compound_node(PyObject *args, enum NodeOp op) {
     return ret;
 }
 
-#define NODE_OPERATOR_DEF(op) \
+#define NODE_BINARY_OPERATOR_DEF(op) \
 PyObject *node_ref_##op(PyObject *self, PyObject *args) { \
-    return make_compound_node(args, OP_##op); \
+    return make_bin_op_node(args, OP_##op); \
 }
 
-NODE_OPERATOR_DEF(ADD)
-NODE_OPERATOR_DEF(SUB)
-NODE_OPERATOR_DEF(MUL)
-NODE_OPERATOR_DEF(DIV)
-NODE_OPERATOR_DEF(MOD)
+NODE_BINARY_OPERATOR_DEF(ADD)
+NODE_BINARY_OPERATOR_DEF(SUB)
+NODE_BINARY_OPERATOR_DEF(MUL)
+NODE_BINARY_OPERATOR_DEF(DIV)
+NODE_BINARY_OPERATOR_DEF(MOD)
 
-NODE_OPERATOR_DEF(AND)
-NODE_OPERATOR_DEF(OR)
-NODE_OPERATOR_DEF(XOR)
+NODE_BINARY_OPERATOR_DEF(AND)
+NODE_BINARY_OPERATOR_DEF(OR)
+NODE_BINARY_OPERATOR_DEF(XOR)
 
-NODE_OPERATOR_DEF(EQU)
-NODE_OPERATOR_DEF(NEQ)
-NODE_OPERATOR_DEF(LEQ)
-NODE_OPERATOR_DEF(GEQ)
-NODE_OPERATOR_DEF(LE)
-NODE_OPERATOR_DEF(GE)
+NODE_BINARY_OPERATOR_DEF(EQU)
+NODE_BINARY_OPERATOR_DEF(NEQ)
+NODE_BINARY_OPERATOR_DEF(LEQ)
+NODE_BINARY_OPERATOR_DEF(GEQ)
+NODE_BINARY_OPERATOR_DEF(LE)
+NODE_BINARY_OPERATOR_DEF(GE)
