@@ -1,26 +1,19 @@
-import pkgconfig
-
 from setuptools import setup, find_packages
 from setuptools.extension import Extension
+from Cython.Build import cythonize
+
+import numpy as np
 
 
-backend = Extension(
+backend_ext = Extension(
     'tsgraph.backend',
     sources = [
-        'tsgraph/csrc/graph/comp_graph.c',
-        'tsgraph/csrc/api/py_graph_impl.c',
-        'tsgraph/csrc/api/pyobj_operators.c',
-
-        'tsgraph/csrc/module.c'
+        'tsgraph/_cylibs/module.pyx'
     ],
-    # libraries = ['glib-2.0'],
-    include_dirs = [
-        'tsgraph/csrc',
-        # '/usr/local/Cellar/glib/2.74.5/include/glib-2.0',
-        # '/usr/local/lib/glib-2.0/include'
-    ]
+    include_dirs = [np.get_include()],
+    language='c++',
+    extra_compile_args=['-std=c++17']
 )
-pkgconfig.configure_extension(backend, 'glib-2.0')
 
 setup(
     name = "tsgraph",
@@ -29,10 +22,8 @@ setup(
     author = "Samoyed Lab",
     packages = find_packages(),
     package_data = {
-        'tsgraph.backend': ['tsgraph/csrc/py.typed']
+        'tsgraph.backend': ['tsgraph/_cylibs/py.typed']
     },
 
-    ext_modules=[
-    	backend
-    ]
+    ext_modules = cythonize((backend_ext,))
 )
