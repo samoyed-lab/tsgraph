@@ -8,7 +8,7 @@ import numpy as np
 backend_ext = Extension(
     'tsgraph.backend',
     sources = [
-        'tsgraph/_cylibs/module.pyx'
+        'tsgraph/_cylibs/graph/comp_graph.pyx'
     ],
     include_dirs = [np.get_include()],
     language='c++',
@@ -22,8 +22,8 @@ setup(
     author = "Samoyed Lab",
     packages = find_packages(),
     package_data = {
-        'tsgraph.backend': ['tsgraph/_cylibs/py.typed']
+        #'tsgraph.backend': ['tsgraph/_cylibs/py.typed']
     },
 
-    ext_modules = cythonize((backend_ext,))
+    ext_modules = cythonize((backend_ext,), language_level='3')
 )
